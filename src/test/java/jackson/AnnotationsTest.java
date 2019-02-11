@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Date;
+
 public class AnnotationsTest {
 
     @Test
@@ -79,4 +81,16 @@ public class AnnotationsTest {
 
         Assert.assertTrue(result.equals("{\"rootValue\":{\"name\":\"name\",\"age\":2}}"));
     }
+
+    @Test
+    public void jsonSerializerTest() throws JsonProcessingException {
+        JsonSerializeBean  jsonSerializeBean = new JsonSerializeBean("ddd",new Date(0,0,0));
+
+        String res = new ObjectMapper().writeValueAsString(jsonSerializeBean);
+
+        Assert.assertTrue(res.equals("{\"name\":\"ddd\",\"eventDate\":\"Sun Dec 31 00:00:00 COT 1899\"}"));
+
+    }
+
+
 }
