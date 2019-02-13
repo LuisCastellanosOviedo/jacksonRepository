@@ -1,13 +1,15 @@
 package jackson;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AnnotationsTest {
 
@@ -23,8 +25,8 @@ public class AnnotationsTest {
 
         String result = new ObjectMapper().writeValueAsString(jaacksonAnyGetter);
 
-        Assert.assertTrue(result.contains("attr1"));
-        Assert.assertTrue(result.contains("val1"));
+        assertTrue(result.contains("attr1"));
+        assertTrue(result.contains("val1"));
     }
 
 
@@ -35,7 +37,7 @@ public class AnnotationsTest {
         //{"thisIsMyNewGet":"apple"}
         String result = new ObjectMapper().writeValueAsString(jsonGetter);
 
-        Assert.assertTrue(result.contains("apple"));
+        assertTrue(result.contains("apple"));
     }
 
     @Test
@@ -45,7 +47,7 @@ public class AnnotationsTest {
         String result = new ObjectMapper().writeValueAsString(jsonPropertyOrderBean);
 
         // order in the json ie. --> @JsonPropertyOrder({"age","name"})
-        Assert.assertTrue(result.equals("{\"age\":2,\"name\":\"name\"}"));
+        assertTrue(result.equals("{\"age\":2,\"name\":\"name\"}"));
 
     }
 
@@ -56,7 +58,7 @@ public class AnnotationsTest {
         String res = new ObjectMapper().writeValueAsString(jsonRawValueBean);
 
         // print no format over the json attrib
-        Assert.assertTrue(res.contains("{\"name\":\"My Bean\",\"json\":{\"attribute\":false}}"));
+        assertTrue(res.contains("{\"name\":\"My Bean\",\"json\":{\"attribute\":false}}"));
 
     }
 
@@ -66,7 +68,7 @@ public class AnnotationsTest {
         String enumAsString = new ObjectMapper().writeValueAsString(JsonValueENUMBean.TYPEA);
 
         // serialize via enum and the field annotated
-        Assert.assertTrue(enumAsString.equals("\"type A \""));
+        assertTrue(enumAsString.equals("\"type A \""));
     }
 
     @Test
@@ -79,7 +81,7 @@ public class AnnotationsTest {
 
         String result = mapper.writeValueAsString(jsonRootNameBean);
 
-        Assert.assertTrue(result.equals("{\"rootValue\":{\"name\":\"name\",\"age\":2}}"));
+        assertTrue(result.equals("{\"rootValue\":{\"name\":\"name\",\"age\":2}}"));
     }
 
     @Test
@@ -88,9 +90,21 @@ public class AnnotationsTest {
 
         String res = new ObjectMapper().writeValueAsString(jsonSerializeBean);
 
-        Assert.assertTrue(res.equals("{\"name\":\"ddd\",\"eventDate\":\"Sun Dec 31 00:00:00 COT 1899\"}"));
+        assertTrue(res.equals("{\"name\":\"ddd\",\"eventDate\":\"Sun Dec 31 00:00:00 COT 1899\"}"));
 
     }
 
 
+    @Test
+    public void jsonCreatorBeanTest() throws IOException {
+
+        String json = "{\"id\":1,\"theName\":\"My bean\"}";
+
+        JsonCreatorBean  jsonCreatorBean = new ObjectMapper()
+                .readerFor(JsonCreatorBean.class)
+                .readValue(json);
+
+        assertEquals(jsonCreatorBean.getAge(),1);
+        assertEquals(jsonCreatorBean.getName(),"My bean");
+    }
 }

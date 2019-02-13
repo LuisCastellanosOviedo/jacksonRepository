@@ -13,3 +13,7 @@ U
 +src/main/java/jackson/JsonRootNameBean.java,8/e/8e30f4d4c5f4ac3075241aa8090322a3e045f5d1
 Z
 *src/test/java/jackson/AnnotationsTest.java,2/9/29941e8c980903bceb9863736568ad804b2c80d5
+_
+/src/main/java/jackson/CustomDateSerializer.java,2/3/235c84aa710358dce8350ca8cb55c006bed1da46
+\
+,src/main/java/jackson/JsonSerializeBean.java,a/9/a9b3d91d232f6042d3ad7d494205812465a47108
